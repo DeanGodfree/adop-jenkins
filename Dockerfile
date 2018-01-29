@@ -1,4 +1,4 @@
-FROM jenkins:2.7.4
+FROM jenkins/jenkins:2.73.3
 
 MAINTAINER Nick Griffin, <nicholas.griffin>
 
@@ -20,8 +20,13 @@ COPY resources/scriptApproval.xml /usr/share/jenkins/ref/
 
 # Reprotect
 USER root
+RUN apt-get update && apt-get install -y dos2unix
 RUN chmod +x -R /usr/share/jenkins/ref/adop_scripts/ && chmod +x /entrypoint.sh
 # USER jenkins
+
+# 2.73.1 changes compliance
+## SSHD Module 2.0 has been integrated towards the Jenkins 2.69 release
+RUN echo "KexAlgorithms diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha256" >> /etc/ssh/ssh_config
 
 # Environment variables
 ENV ADOP_LDAP_ENABLED=true LDAP_IS_MODIFIABLE=true ADOP_ACL_ENABLED=true ADOP_SONAR_ENABLED=true ADOP_ANT_ENABLED=true ADOP_MAVEN_ENABLED=true ADOP_NODEJS_ENABLED=true ADOP_GERRIT_ENABLED=true
@@ -30,6 +35,7 @@ ENV JENKINS_OPTS="--prefix=/jenkins -Djenkins.install.runSetupWizard=false"
 ENV PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH="/var/jenkins_home/userContent/datastore/pluggable/scm"
 ENV PLUGGABLE_SCM_PROVIDER_PATH="/var/jenkins_home/userContent/job_dsl_additional_classpath/"
 
+RUN dos2unix /usr/share/jenkins/ref/plugins.txt && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
