@@ -1,4 +1,3 @@
-job-dsl:1.48
 pipeline-model-definition:1.2.5
 pipeline-model-extensions:1.2.6
 dynamicparameter:0.2.0
