@@ -1,69 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<scriptApproval plugin="script-security@1.34">
+<scriptApproval plugin="script-security@1.40">
+  <approvedScriptHashes>
+    <string>3b3bbaffb35bd9028db16bc9165fbeded81ca379</string>
+    <string>56c60125427b5350dd99e9ce9c096c8abeb7ed89</string>
+    <string>5c6c730a37d8a72defbe6bb3e2f77adcf86c4827</string>
+    <string>7060966a8810492370a41325bc8287b0512bb068</string>
+    <string>83b7fab1018c6a4ca93300ce89ba3721eca532bc</string>
+    <string>d0e0cda56273f319dca27cee398a7ee5ad1af40f</string>
+    <string>d241e70226f520021667aa564594ba28331a29aa</string>
+    <string>e63cfcc77546b9c6a267dd0da67b57b6d6d1ce31</string>
+  </approvedScriptHashes>
   <approvedSignatures>
     <string>field java.util.ArrayList size</string>
-    <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider addCredentials com.cloudbees.plugins.credentials.domains.Domain com.cloudbees.plugins.credentials.Credentials</string>
-    <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider getCredentials</string>
-    <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider removeCredentials com.cloudbees.plugins.credentials.domains.Domain com.cloudbees.plugins.credentials.Credentials</string>
-    <string>method com.cloudbees.plugins.credentials.common.StandardCredentials getDescription</string>
-    <string>method com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig addConnection com.dabsquared.gitlabjenkins.connection.GitLabConnection</string>
-    <string>method com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig getConnections</string>
-    <string>method com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig setUseAuthenticatedEndpoint boolean</string>
-    <string>method com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy addRole java.lang.String com.michelin.cio.hudson.plugins.rolestrategy.Role</string>
-    <string>method com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy assignRole java.lang.String com.michelin.cio.hudson.plugins.rolestrategy.Role java.lang.String</string>
-    <string>method com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy getRoleMap java.lang.String</string>
-    <string>method com.michelin.cio.hudson.plugins.rolestrategy.RoleMap getRole java.lang.String</string>
     <string>method groovy.lang.GString plus java.lang.String</string>
-    <string>method groovy.lang.Script println java.lang.Object</string>
-    <string>method hudson.model.Run getEnvironment hudson.model.TaskListener</string>
-    <string>method hudson.model.Saveable save</string>
-    <string>method hudson.model.UpdateCenter getById java.lang.String</string>
-    <string>method hudson.model.UpdateSite updateDirectlyNow boolean</string>
-    <string>method hudson.plugins.sonar.SonarGlobalConfiguration getInstallations</string>
-    <string>method hudson.plugins.sonar.SonarGlobalConfiguration setInstallations hudson.plugins.sonar.SonarInstallation[]</string>
-    <string>method hudson.plugins.sonar.SonarInstallation getName</string>
-    <string>method hudson.tools.ToolDescriptor getInstallations</string>
-    <string>method hudson.tools.ToolDescriptor setInstallations hudson.tools.ToolInstallation[]</string>
-    <string>method java.lang.Class getDeclaredMethod java.lang.String java.lang.Class[]</string>
-    <string>method java.lang.reflect.AccessibleObject setAccessible boolean</string>
-    <string>method java.util.Collection clear</string>
-    <string>method java.util.Collection toArray</string>
-    <string>method jenkins.model.Jenkins getAuthorizationStrategy</string>
-    <string>method jenkins.model.Jenkins getDescriptor java.lang.Class</string>
-    <string>method jenkins.model.Jenkins getUpdateCenter</string>
-    <string>method org.apache.maven.model.Model getVersion</string>
-    <string>method org.jenkinsci.plugins.workflow.support.steps.build.RunWrapper getRawBuild</string>
-    <string>new com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl com.cloudbees.plugins.credentials.CredentialsScope java.lang.String java.lang.String java.lang.String java.lang.String</string>
-    <string>new com.dabsquared.gitlabjenkins.connection.GitLabApiTokenImpl com.cloudbees.plugins.credentials.CredentialsScope java.lang.String java.lang.String hudson.util.Secret</string>
-    <string>new com.dabsquared.gitlabjenkins.connection.GitLabConnection java.lang.String java.lang.String java.lang.String boolean java.lang.Integer java.lang.Integer</string>
-    <string>new com.michelin.cio.hudson.plugins.rolestrategy.Role java.lang.String java.lang.String java.util.Set</string>
-    <string>new hudson.model.JDK java.lang.String java.lang.String java.util.List</string>
-    <string>new hudson.model.JDK$DescriptorImpl</string>
-    <string>new hudson.plugins.sonar.SonarInstallation java.lang.String java.lang.String java.lang.String java.lang.String java.lang.String java.lang.String java.lang.String java.lang.String java.lang.String hudson.plugins.sonar.model.TriggersConfig java.lang.String java.lang.String java.lang.String</string>
-    <string>new hudson.plugins.sonar.model.TriggersConfig</string>
-    <string>new hudson.tools.InstallSourceProperty java.util.List</string>
-    <string>new hudson.tools.JDKInstaller java.lang.String boolean</string>
-    <string>new java.io.File java.lang.String</string>
-    <string>new org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl com.cloudbees.plugins.credentials.CredentialsScope java.lang.String java.lang.String hudson.util.Secret</string>
-    <string>staticField com.cloudbees.plugins.credentials.CredentialsScope GLOBAL</string>
-    <string>staticField com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy PROJECT</string>
-    <string>staticField hudson.plugins.sonar.utils.SQServerVersions SQ_5_3_OR_HIGHER</string>
-    <string>staticMethod com.cloudbees.plugins.credentials.SystemCredentialsProvider getInstance</string>
-    <string>staticMethod com.cloudbees.plugins.credentials.domains.Domain global</string>
-    <string>staticMethod hudson.model.Hudson getInstance</string>
-    <string>staticMethod hudson.security.Permission fromId java.lang.String</string>
-    <string>staticMethod hudson.util.Secret fromString java.lang.String</string>
-    <string>staticMethod java.lang.System getenv</string>
-    <string>staticMethod java.util.Collections max java.util.Collection</string>
-    <string>staticMethod jenkins.model.Jenkins getInstance</string>
-    <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods flatten java.util.List</string>
-    <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods getText java.io.File</string>
-    <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods invokeMethod java.lang.Object java.lang.String java.lang.Object</string>
-    <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods println groovy.lang.Closure java.lang.Object</string>
   </approvedSignatures>
   <aclApprovedSignatures/>
   <approvedClasspathEntries/>
-  <approvedScriptHashes/>
   <pendingScripts/>
   <pendingSignatures/>
   <pendingClasspathEntries/>
