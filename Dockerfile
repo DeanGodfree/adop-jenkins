@@ -31,7 +31,7 @@ RUN echo "KexAlgorithms diffie-hellman-group1-sha1,diffie-hellman-group-exchange
 # Environment variables
 ENV ADOP_LDAP_ENABLED=true LDAP_IS_MODIFIABLE=true ADOP_ACL_ENABLED=true ADOP_SONAR_ENABLED=true ADOP_ANT_ENABLED=true ADOP_MAVEN_ENABLED=true ADOP_NODEJS_ENABLED=true ADOP_GERRIT_ENABLED=true
 ENV LDAP_GROUP_NAME_ADMIN=""
-ENV JENKINS_OPTS="--prefix=/jenkins -Djenkins.install.runSetupWizard=false"
+ENV JENKINS_OPTS="--prefix=/jenkins -Djenkins.install.runSetupWizard=false -Dpermissive-script-security.enabled=true"
 ENV PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH="/var/jenkins_home/userContent/datastore/pluggable/scm"
 ENV PLUGGABLE_SCM_PROVIDER_PATH="/var/jenkins_home/userContent/job_dsl_additional_classpath/"
 
