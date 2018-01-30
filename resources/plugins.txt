@@ -142,3 +142,7 @@ blueocean-bitbucket-pipeline:latest
 bitbucket:latest
 applitools-eyes:latest
 build-user-vars-plugin:latest
+groovy-postbuild:latest
+checkstyle:latest
+multiple-scms:latest
+hidden-parameter:latest
