@@ -36,7 +36,7 @@ ENV PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH="/var/jenkins_home/userContent/datast
 ENV PLUGGABLE_SCM_PROVIDER_PATH="/var/jenkins_home/userContent/job_dsl_additional_classpath/"
 
 RUN dos2unix /usr/share/jenkins/ref/plugins.txt && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
-RUN mkdir /usr/share/jenkins/ref/plugins
+RUN mkdir /usr/share/jenkins/ref/plugins && touch /usr/share/jenkins/ref/plugins/permissive-script-security.lock
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
