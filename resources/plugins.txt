@@ -142,3 +142,4 @@ blueocean-bitbucket-pipeline:latest
 bitbucket:latest
 applitools-eyes:latest
 build-user-vars-plugin:latest
+permissive-script-security:latest
