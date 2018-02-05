@@ -23,7 +23,7 @@ COPY resources/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /usr/shar
 
 # Reprotect
 USER root
-RUN apt-get update && apt-get install -y dos2unix apt-get gettext-base
+RUN apt-get update && apt-get install -y dos2unix gettext-base
 RUN chmod +x -R /usr/share/jenkins/ref/adop_scripts/ && chmod +x /entrypoint.sh
 # USER jenkins
 
