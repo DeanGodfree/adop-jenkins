@@ -1,12 +1,12 @@
 <org.jenkinsci.plugins.workflow.libs.GlobalLibraries plugin="workflow-cps-global-lib@2.9">
     <libraries>
         <org.jenkinsci.plugins.workflow.libs.LibraryConfiguration>
-            <name>my-shared-library</name>
+            <name>jenkins-shared-library</name>
             <retriever class="org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever">
                 <scm class="jenkins.plugins.git.GitSCMSource" plugin="git@3.7.0">
                     <id>7356ba0d-a25f-4f61-8c56-b3c565a39929</id>
                     <remote>ssh://git@innersource.accenture.com/gskdo/jenkins-pipeline-libs.git</remote>
-                    <credentialsId>ssh</credentialsId>
+                    <credentialsId>gsk_ServiceUser</credentialsId>
                     <traits>
                         <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
                     </traits>
