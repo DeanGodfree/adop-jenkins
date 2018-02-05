@@ -21,7 +21,7 @@ COPY resources/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /usr/shar
 
 # Reprotect
 USER root
-RUN apt-get update && apt-get install -y dos2unix
+RUN apt-get update && apt-get install -y dos2unix apt-get gettext-base
 RUN chmod +x -R /usr/share/jenkins/ref/adop_scripts/ && chmod +x /entrypoint.sh
 # USER jenkins
 
@@ -36,7 +36,10 @@ ENV JENKINS_OPTS="--prefix=/jenkins -Djenkins.install.runSetupWizard=false"
 ENV PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH="/var/jenkins_home/userContent/datastore/pluggable/scm"
 ENV PLUGGABLE_SCM_PROVIDER_PATH="/var/jenkins_home/userContent/job_dsl_additional_classpath/"
 
-RUN dos2unix /usr/share/jenkins/ref/plugins.txt && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
+#Should now take envrionment variables for shared libraries and update xml file
+CMD envsubst '${JENKINS_SHARED_LIBRARY} ${JENKINS_SHARED_LIBRARY}' </usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml
+
+RUN dos2unix /usr/share/jenkins/ref/plugins.txt && apt-get --purge remove -y dos2unix gettext-base && rm -rf /var/lib/apt/lists/*
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
