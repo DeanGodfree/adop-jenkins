@@ -6,6 +6,8 @@ ENV GERRIT_HOST_NAME gerrit
 ENV GERRIT_PORT 8080
 ENV GERRIT_SSH_PORT 29418
 ENV GERRIT_PROFILE="ADOP Gerrit" GERRIT_JENKINS_USERNAME="" GERRIT_JENKINS_PASSWORD=""
+ENV JENKINS_SHARED_LIBRARY=""
+ENV AEM_SHARED_LIBRARY=""
 
 # Copy in configuration files
 COPY resources/plugins.txt /usr/share/jenkins/ref/
@@ -36,10 +38,7 @@ ENV JENKINS_OPTS="--prefix=/jenkins -Djenkins.install.runSetupWizard=false"
 ENV PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH="/var/jenkins_home/userContent/datastore/pluggable/scm"
 ENV PLUGGABLE_SCM_PROVIDER_PATH="/var/jenkins_home/userContent/job_dsl_additional_classpath/"
 
-#Should now take envrionment variables for shared libraries and update xml file
-CMD envsubst '${JENKINS_SHARED_LIBRARY} ${JENKINS_SHARED_LIBRARY}' </usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml
-
-RUN dos2unix /usr/share/jenkins/ref/plugins.txt && apt-get --purge remove -y dos2unix gettext-base && rm -rf /var/lib/apt/lists/*
+RUN dos2unix /usr/share/jenkins/ref/plugins.txt && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
