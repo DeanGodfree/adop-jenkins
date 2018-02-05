@@ -145,3 +145,4 @@ build-user-vars-plugin:latest
 groovy-postbuild:latest
 checkstyle:latest
 hidden-parameter:latest
+ansible-tower:latest
