@@ -20,6 +20,9 @@ sed -i "s,###SCM_PROVIDER_PROPERTIES_PATH###,$PLUGGABLE_SCM_PROVIDER_PROPERTIES_
 echo "skip upgrade wizard step after installation"
 echo "2.73.3" > /var/jenkins_home/jenkins.install.UpgradeWizard.state
 
+echo "moving shared libraries xml config into Jenkins Home folder"
+cp /usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /var/jenkins_home
+
 echo "start JENKINS"
 
 chown -R 1000:1000 /var/jenkins_home
