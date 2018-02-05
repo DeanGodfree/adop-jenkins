@@ -23,6 +23,9 @@ echo "2.73.3" > /var/jenkins_home/jenkins.install.UpgradeWizard.state
 echo "moving shared libraries xml config into Jenkins Home folder"
 cp /usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /var/jenkins_home
 
+echo "tokenising shared library xml"
+envsubst '${JENKINS_SHARED_LIBRARY} ${AEM_SHARED_LIBRARY}' </usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml
+
 echo "start JENKINS"
 
 chown -R 1000:1000 /var/jenkins_home
