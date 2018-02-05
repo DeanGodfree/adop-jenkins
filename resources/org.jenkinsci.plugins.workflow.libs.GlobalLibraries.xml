@@ -6,7 +6,7 @@
                 <scm class="jenkins.plugins.git.GitSCMSource" plugin="git@3.7.0">
                     <id>7356ba0d-a25f-4f61-8c56-b3c565a39929</id>
                     <remote>ssh://git@innersource.accenture.com/gskdo/jenkins-pipeline-libs.git</remote>
-                    <credentialsId>gsk_ServiceUser</credentialsId>
+                    <credentialsId>jenkins</credentialsId>
                     <traits>
                         <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
                     </traits>
@@ -22,7 +22,7 @@
                 <scm class="jenkins.plugins.git.GitSCMSource" plugin="git@3.7.0">
                     <id>7356ba0d-a25f-4f61-8c56-b3c565a39929</id>
                     <remote>ssh://git@innersource.accenture.com/gskdo/aem-pipeline-libs.git</remote>
-                    <credentialsId>gsk_ServiceUser</credentialsId>
+                    <credentialsId>jenkins</credentialsId>
                     <traits>
                         <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
                     </traits>
