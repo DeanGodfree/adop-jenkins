@@ -27,7 +27,7 @@ cp /var/jenkins_home/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /va
 echo "tokenising shared library xml"
 echo "JENKINS_SHARED_LIBRARY="${JENKINS_SHARED_LIBRARY}
 echo "AEM_SHARED_LIBRARY="${AEM_SHARED_LIBRARY}
-envsubst < /var/jenkins_home/org.jenkinsci.plugins.workflow.libs.GlobalLibraries_source.xml > /usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml
+envsubst < /var/jenkins_home/org.jenkinsci.plugins.workflow.libs.GlobalLibraries_source.xml > /var/jenkins_home/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml
 
 echo "start JENKINS"
 chown -R 1000:1000 /var/jenkins_home
