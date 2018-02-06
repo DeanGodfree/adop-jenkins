@@ -7,7 +7,7 @@ import hudson.model.*
 import groovy.io.FileType
 
 def env = System.getenv()
-def jdkDir = env['JAVA_HOME']
+def jdkDir = env['JDK_DIRS']
 
 def inst = Jenkins.getInstance()
 def desc = inst.getDescriptor("hudson.model.JDK")
