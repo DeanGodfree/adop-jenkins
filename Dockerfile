@@ -42,6 +42,7 @@ RUN apt-get update && \
 
 # Setup JAVA_HOME
 ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
+ENV JDK_DIRS="/usr/lib/jvm/"
 
 RUN chmod +x -R /usr/share/jenkins/ref/adop_scripts/ && chmod +x /entrypoint.sh
 # USER jenkins
