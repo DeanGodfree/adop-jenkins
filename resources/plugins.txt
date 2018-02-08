@@ -146,3 +146,5 @@ groovy-postbuild:latest
 checkstyle:latest
 hidden-parameter:latest
 ansible-tower:latest
+antisamy-markup-formatter:latest
+cobertura:latest
