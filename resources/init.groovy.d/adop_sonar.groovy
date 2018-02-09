@@ -22,7 +22,7 @@ def sonar_db_password = env['SONAR_DB_PASSWORD']
 def sonar_plugin_version = env['SONAR_PLUGIN_VERSION']
 def sonar_additional_props = env['SONAR_ADDITIONAL_PROPS']
 
-def sonar_runner_version = env['SONAR_RUNNER_VERSION']
+def sonar_scanner_version = env['SONAR_SCANNER_VERSION']
 
 // Constants
 def instance = Jenkins.getInstance()
@@ -73,9 +73,9 @@ Thread.start {
     println "--> Configuring SonarRunner"
     def desc_SonarRunnerInst = instance.getDescriptor("hudson.plugins.sonar.SonarRunnerInstallation")
 
-    def sonarRunnerInstaller = new SonarRunnerInstaller(sonar_runner_version)
+    def sonarRunnerInstaller = new SonarRunnerInstaller(sonar_scanner_version)
     def installSourceProperty = new InstallSourceProperty([sonarRunnerInstaller])
-    def sonarRunner_inst = new SonarRunnerInstallation("ADOP SonarRunner " + sonar_runner_version, "", [installSourceProperty])
+    def sonarRunner_inst = new SonarRunnerInstallation("ADOP SonarScanner " + sonar_scanner_version, "", [installSourceProperty])
 
     // Only add our Sonar Runner if it does not exist - do not overwrite existing config
     def sonar_runner_installations = desc_SonarRunnerInst.getInstallations()
