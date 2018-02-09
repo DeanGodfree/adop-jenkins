@@ -1,6 +1,6 @@
 pipeline-model-definition:latest
 pipeline-model-extensions:latest
-scriptler:latest
+scriptler:2.9
 uno-choice:latest
 greenballs:latest
 docker-build-step:latest
