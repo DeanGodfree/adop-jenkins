@@ -1,8 +1,8 @@
 pipeline-model-definition:latest
 pipeline-model-extensions:latest
-dynamicparameter:0.2.0
-scriptler:2.9
-uno-choice:1.5.2
+dynamicparameter:latest
+scriptler:latest
+uno-choice:latest
 greenballs:latest
 docker-build-step:latest
 copyartifact:latest
