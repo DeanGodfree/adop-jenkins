@@ -38,7 +38,7 @@ Thread.start {
     def sonar_inst = new SonarInstallation(
         "ADOP Sonar", // Name
         sonar_server_url,
-        SQServerVersions.SQ_5_1_OR_LOWER, // Major version upgrade of server would require to change it
+        SQServerVersions.SQ_5_3_OR_HIGHER, // Major version upgrade of server would require to change it
         "", // Token
         sonar_db_url,
         sonar_db_login,
