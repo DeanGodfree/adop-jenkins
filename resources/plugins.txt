@@ -1,6 +1,5 @@
 pipeline-model-definition:latest
 pipeline-model-extensions:latest
-dynamicparameter:latest
 scriptler:latest
 uno-choice:latest
 greenballs:latest
