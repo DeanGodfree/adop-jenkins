@@ -18,7 +18,7 @@ echo "Tokenising scriptler scripts..."
 sed -i "s,###SCM_PROVIDER_PROPERTIES_PATH###,$PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH,g" /usr/share/jenkins/ref/scriptler/scripts/retrieve_scm_props.groovy
 
 echo "skip upgrade wizard step after installation"
-echo "2.89.3" > /var/jenkins_home/jenkins.install.UpgradeWizard.state
+echo "2.89.4" > /var/jenkins_home/jenkins.install.UpgradeWizard.state
 
 echo "moving shared libraries xml config into Jenkins Home folder"
 cp /usr/share/jenkins/ref/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /var/jenkins_home
