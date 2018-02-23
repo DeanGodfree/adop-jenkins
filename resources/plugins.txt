@@ -148,3 +148,5 @@ ansible-tower:latest
 cobertura:latest
 nexus-jenkins-plugin:latest
 warnings:latest
+slack:latest
+prometheus:latest
