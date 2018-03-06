@@ -151,3 +151,4 @@ warnings:latest
 slack:latest
 prometheus:latest
 amazon-ecr:latest
+gitlab-plugin:latest
