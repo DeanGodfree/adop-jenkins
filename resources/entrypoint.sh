@@ -1,12 +1,12 @@
 #!/bin/bash
 
 echo "Genarate JENKINS SSH KEY and add it to gerrit"
-host=$GERRIT_HOST_NAME
-port=$GERRIT_PORT
+host=$GIT_SERVER_HOST_NAME
+port=$GIT_SERVER_PORT
 gerrit_provider_id="adop-gerrit"
 gerrit_protocol="ssh"
-username=$GERRIT_JENKINS_USERNAME
-password=$GERRIT_JENKINS_PASSWORD
+username=$GIT_USERNAME
+password=$GIT_PASSWORD
 nohup /usr/share/jenkins/ref/adop\_scripts/generate_key.sh -c ${host} -p ${port} -u ${username} -w ${password} &
 
 echo "Setting up your default SCM provider - Gerrit..."
