@@ -24,7 +24,7 @@ Thread.start {
 
     // NodeJS
     println "--> Configuring NodeJS"
-    def nodeJSPluginInstance = NodeJSPlugin.instance()
+    // def nodeJSPluginInstance = NodeJSPlugin.instance()
 
     def nodejsInstaller = new NodeJSInstaller(nodejs_version,nodejs_global_packages,nodejs_packages_refresh_hours)
     def installSourceProperty = new InstallSourceProperty([nodejsInstaller])
@@ -35,7 +35,9 @@ Thread.start {
     )
 
     // Only add ADOP NodeJS if it does not exist - do not overwrite existing config
-    def nodejs_installations = nodeJSPluginInstance.getInstallations()
+    def nodeJSPluginInstance = new NodeJSPlugin().getInstallations()
+    def nodejs_installations = nodeJSPluginInstance
+    //def nodejs_installations = nodeJSPluginInstance.getInstallations()
     def nodejs_inst_exists = false
     nodejs_installations.each {
       installation = (NodeJSInstallation) it
