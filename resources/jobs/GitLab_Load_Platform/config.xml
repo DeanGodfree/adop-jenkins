@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.4.8">
+      <gitLabConnection>ADOP Gitlab</gitLabConnection>
+    </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>GIT_URL</name>
+          <description>The URL of the git repo for Platform Management.</description>
+          <defaultValue>https://github.com/pdcbuckets/adop-gitlab-load-platform/</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>GIT_REF</name>
+          <description>The branch of the git repo for Platform Management.</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <com.cloudbees.plugins.credentials.CredentialsParameterDefinition plugin="credentials@2.1.16">
+          <name>GITLAB_CREDENTIALS</name>
+          <description></description>
+          <defaultValue>gitlab-admin-credentials</defaultValue>
+          <credentialType>com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl</credentialType>
+          <required>false</required>
+        </com.cloudbees.plugins.credentials.CredentialsParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GENERATE_EXAMPLE_WORKSPACE</name>
+          <description>Should an example workspace be generated?</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty plugin="jenkinswalldisplay@0.6.34"/>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.5.1">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>$GIT_URL</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/$GIT_REF</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <authToken>UKdjguOElrnS</authToken>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -ex
+
+if [[ -z $GITLAB_USER || -z $GITLAB_PASSWORD ]]; then
+  echo &quot;Missing GITLAB_USER or GITLAB_PASSWORD&quot;
+  exit 1
+fi
+
+echo -e &quot;Host ${GITLAB_HOST_NAME}
+        StrictHostKeyChecking no
+&quot; &gt;&gt; ~/.ssh/config
+echo -e &quot;Host innersource.accenture.com
+        StrictHostKeyChecking no
+&quot; &gt;&gt; ~/.ssh/config
+echo -e &quot;Host newsource.accenture.com
+        StrictHostKeyChecking no
+&quot; &gt;&gt; ~/.ssh/config
+
+# install jq
+sh ${WORKSPACE}/common/utils/install_jq.sh
+export PATH=&quot;$PATH:$HOME/bin&quot;
+
+echo &quot;Getting the Gitlab token&quot;
+get_response=$(curl -I -X POST &quot;${GITLAB_HTTP_URL}/api/v4/session?login=${GITLAB_USER}&amp;password=${GITLAB_PASSWORD}&quot;)
+response=$(echo $get_response | head -1 | awk &apos;{print $2}&apos;)
+
+echo $get_response
+
+if [[ $response -ne 201 ]]; then
+	echo &quot;$GITLAB_USER is unauthorized to access ${GITLAB_HTTP_URL}/api/v4/&quot;
+    exit 1
+fi
+
+GITLAB_TOKEN=$(curl -X POST &quot;${GITLAB_HTTP_URL}/api/v4/session?login=${GITLAB_USER}&amp;password=${GITLAB_PASSWORD}&quot; | jq &apos;.private_token&apos; | tr -d &apos;&quot;&apos;)
+
+if [[ $GITLAB_TOKEN -ne &quot;null&quot; ]]; then
+	echo &quot;Token is null&quot;
+    exit 1
+fi
+
+echo &quot;Adding ssh key&quot;
+key=$(cat ~/.ssh/id_rsa.pub)
+curl -v --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; -X POST &quot;${GITLAB_HTTP_URL}/api/v4/user/keys&quot; --data-urlencode &quot;title=jenkins@adop-core&quot; --data-urlencode &quot;key=${key}&quot;
+
+echo &quot;Create the platform-management repo in ${GITLAB_HTTP_URL}&quot;
+target_repo_name=&quot;platform-management&quot;
+curl -v --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; -X POST &quot;${GITLAB_HTTP_URL}/api/v4/projects?name=${target_repo_name}&quot;
+
+echo &quot;Create a gitlab repository for platform management&quot;
+git remote add adop git@${GITLAB_HOST_NAME}:root/$target_repo_name.git
+git fetch adop
+git push adop +refs/remotes/origin/*:refs/heads/*
+
+set +x
+# Add the GITLAB_TOKEN to a file for execute system groovy script use, it will be deleted at the end
+echo &quot;$GITLAB_TOKEN&quot; &gt; /tmp/gitlab_token_file
+
+# Create SonarQube Administrator user token
+curl -u &quot;${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}&quot; &quot;http://sonar-web:9000/api/user_tokens/search&quot; | jq &apos;.userTokens[].name&apos; | tr -d &apos;&quot; &apos; &gt; tokens.txt
+tokens=$(cat tokens.txt)
+if [ ${#tokens[@]} -gt 0 ]; then
+  for token in $(cat tokens.txt); do
+      if [ $token == &quot;adop-token&quot; ]; then
+          echo &quot;deleting existing token in sonarqube&quot;
+          curl -v -X POST -u &quot;${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}&quot; &quot;${SONAR_SERVER_URL}/api/user_tokens/revoke?name=adop-token&quot;
+      fi
+  done
+fi
+
+adop_sonar_token=$(curl -X POST -u &quot;${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}&quot; &quot;${SONAR_SERVER_URL}/api/user_tokens/generate?name=adop-token&quot; | jq &apos;.token&apos; | tr -d &apos;&quot; &apos;)
+
+if [ adop_sonar_token == &quot;null&quot; ]; then
+	echo &quot;Could not get the token for user ${INITIAL_ADMIN} in sonarqube server ${SONAR_SERVER_URL}&quot;
+    exit 1
+fi
+
+echo &quot;Passing SonarQube token to /tmp/sonar_token_file&quot;
+echo $adop_sonar_token &gt; /tmp/sonar_token_file</command>
+    </hudson.tasks.Shell>
+    <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.65">
+      <targets>bootstrap/**/*.groovy</targets>
+      <usingScriptText>false</usingScriptText>
+      <sandbox>false</sandbox>
+      <ignoreExisting>false</ignoreExisting>
+      <ignoreMissingFiles>false</ignoreMissingFiles>
+      <failOnMissingPlugin>false</failOnMissingPlugin>
+      <unstableOnDeprecation>false</unstableOnDeprecation>
+      <removedJobAction>IGNORE</removedJobAction>
+      <removedViewAction>IGNORE</removedViewAction>
+      <removedConfigFilesAction>IGNORE</removedConfigFilesAction>
+      <lookupStrategy>JENKINS_ROOT</lookupStrategy>
+    </javaposse.jobdsl.plugin.ExecuteDslScripts>
+    <hudson.plugins.groovy.SystemGroovy plugin="groovy@2.0">
+      <source class="hudson.plugins.groovy.FileSystemScriptSource">
+        <scriptFile>${WORKSPACE}/system/groovy/configure_gitlab_connection.groovy</scriptFile>
+      </source>
+    </hudson.plugins.groovy.SystemGroovy>
+    <hudson.plugins.groovy.SystemGroovy plugin="groovy@2.0">
+      <source class="hudson.plugins.groovy.FileSystemScriptSource">
+        <scriptFile>${WORKSPACE}/system/groovy/configure_gitlab_secretText.groovy</scriptFile>
+      </source>
+    </hudson.plugins.groovy.SystemGroovy>
+    <hudson.plugins.groovy.SystemGroovy plugin="groovy@2.0">
+      <source class="hudson.plugins.groovy.FileSystemScriptSource">
+        <scriptFile>${WORKSPACE}/system/groovy/configure_admin_credentials.groovy</scriptFile>
+      </source>
+    </hudson.plugins.groovy.SystemGroovy>
+    <hudson.plugins.groovy.SystemGroovy plugin="groovy@2.0">
+      <source class="hudson.plugins.groovy.FileSystemScriptSource">
+        <scriptFile>${WORKSPACE}/system/groovy/configure_sonarqube_installation.groovy</scriptFile>
+      </source>
+    </hudson.plugins.groovy.SystemGroovy>
+    <hudson.tasks.Shell>
+      <command># Delete generated token file
+rm -f /tmp/gitlab_token_file /tmp/sonar_token_file</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
+      <deleteDirs>false</deleteDirs>
+      <cleanupParameter></cleanupParameter>
+      <externalDelete></externalDelete>
+    </hudson.plugins.ws__cleanup.PreBuildCleanup>
+    <com.michelin.cio.hudson.plugins.maskpasswords.MaskPasswordsBuildWrapper/>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.13">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+          <credentialsId>${GITLAB_CREDENTIALS}</credentialsId>
+          <usernameVariable>GITLAB_USER</usernameVariable>
+          <passwordVariable>GITLAB_PASSWORD</passwordVariable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+  </buildWrappers>
+</project>
