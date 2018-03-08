@@ -16,6 +16,7 @@ COPY resources/m2/ /usr/share/jenkins/ref/.m2
 COPY resources/entrypoint.sh /entrypoint.sh
 COPY resources/scriptApproval.xml /usr/share/jenkins/ref/
 COPY resources/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /usr/share/jenkins/ref/
+COPY resources/filebeat.yml /etc/filebeat/filebeat.yml
 
 # Reprotect
 USER root
@@ -35,6 +36,10 @@ RUN apt-get update && \
 	update-ca-certificates -f && \
 	rm -rf /var/lib/apt/lists/* && \
 	rm -rf /var/cache/oracle-jdk8-installer;
+	
+#Install Filebeat
+RUN curl -o /tmp/filebeat_6.2.2_amd64.deb https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.2.2-amd64.deb && \
+    dpkg -i /tmp/filebeat_6.2.2_amd64.deb && apt-get install    
 
 # Setup JAVA_HOME
 ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
