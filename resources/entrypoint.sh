@@ -1,18 +1,18 @@
 #!/bin/bash
 
-echo "Genarate JENKINS SSH KEY and add it to gerrit"
+echo "Genarate JENKINS SSH KEY and add it to gitlab"
 host=$GIT_SERVER_HOST_NAME
 port=$GIT_SERVER_PORT
-gerrit_provider_id="adop-gerrit"
+gerrit_provider_id="adop-gitlab"
 gerrit_protocol="ssh"
 username=$GIT_USERNAME
 password=$GIT_PASSWORD
 nohup /usr/share/jenkins/ref/adop\_scripts/generate_key.sh -c ${host} -p ${port} -u ${username} -w ${password} &
 
-echo "Setting up your default SCM provider - Gerrit..."
+#echo "Setting up your default SCM provider - Gitlab..."
 mkdir -p $PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH $PLUGGABLE_SCM_PROVIDER_PATH
 mkdir -p ${PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH}/CartridgeLoader ${PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH}/ScmProviders
-nohup /usr/share/jenkins/ref/adop\_scripts/generate_gerrit_scm.sh -i ${gerrit_provider_id} -p ${gerrit_protocol} -h ${host} &
+#nohup /usr/share/jenkins/ref/adop\_scripts/generate_gerrit_scm.sh -i ${gerrit_provider_id} -p ${gerrit_protocol} -h ${host} &
 
 echo "Tokenising scriptler scripts..."
 sed -i "s,###SCM_PROVIDER_PROPERTIES_PATH###,$PLUGGABLE_SCM_PROVIDER_PROPERTIES_PATH,g" /usr/share/jenkins/ref/scriptler/scripts/retrieve_scm_props.groovy
