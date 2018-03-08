@@ -6,4 +6,4 @@ filebeat:
 
 output:
   logstash:
-        hosts: ["logstash:5044"]
+        hosts: ["logstash:5000"]
