@@ -685,7 +685,7 @@ filebeat.prospectors:
 # Configure what output to use when sending the data collected by the beat.
 
 #-------------------------- Elasticsearch output -------------------------------
-output.elasticsearch:
+#output.elasticsearch:
   # Boolean flag to enable or disable the output module.
   #enabled: true
 
@@ -693,7 +693,7 @@ output.elasticsearch:
   # Scheme and port can be left out and will be set to the default (http and 9200)
   # In case you specify and additional path, the scheme is required: http://localhost:9200/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
-  hosts: ["localhost:9200"]
+ # hosts: ["elasticsearch"]
 
   # Set gzip compression level.
   #compression_level: 0
@@ -1239,7 +1239,7 @@ setup.kibana:
   # Scheme and port can be left out and will be set to the default (http and 5601)
   # In case you specify and additional path, the scheme is required: http://localhost:5601/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-  host: "kibana:5601"
+  host: "kibana"
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"
