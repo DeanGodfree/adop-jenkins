@@ -813,7 +813,7 @@ output.logstash:
 
   # Optional index name. The default index name is set to filebeat
   # in all lowercase.
-  #index: 'filebeat'
+  index: 'filebeat'
 
   # SOCKS5 proxy server URL
   #proxy_url: socks5://user:password@socks5-server:2233
@@ -1233,13 +1233,13 @@ setup.template.settings:
 
 # Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
 # This requires a Kibana endpoint configuration.
-setup.kibana:
+#setup.kibana:
 
   # Kibana Host
   # Scheme and port can be left out and will be set to the default (http and 5601)
   # In case you specify and additional path, the scheme is required: http://localhost:5601/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-  host: "kibana"
+ # host: "kibana"
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"
@@ -1317,24 +1317,24 @@ logging.to_files: true
 logging.files:
   # Configure the path where the logs are written. The default is the logs directory
   # under the home path (the binary location).
-  #path: /var/log/filebeat
+  path: /var/log/filebeat
 
   # The name of the files where the logs are written to.
-  #name: filebeat
+  name: filebeat
 
   # Configure log file size limit. If limit is reached, log file will be
   # automatically rotated
-  #rotateeverybytes: 10485760 # = 10MB
+  rotateeverybytes: 10485760 # = 10MB
 
   # Number of rotated log files to keep. Oldest files will be deleted first.
-  #keepfiles: 7
+  keepfiles: 7
 
   # The permissions mask to apply when rotating log files. The default value is 0600.
   # Must be a valid Unix-style file permissions mask expressed in octal notation.
-  #permissions: 0600
+  permissions: 0600
 
 # Set to true to log messages in json format.
-#logging.json: false
+logging.json: false
 
 
 #============================== Xpack Monitoring =====================================
