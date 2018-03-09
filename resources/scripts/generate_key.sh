@@ -2,11 +2,11 @@
 set -e
 
 # Usage
-usage() {
-    echo "Usage:"
-    echo "    ${0} -c <host> -p <port> -u <username> -w <password>"
-    exit 1
-}
+#usage() {
+#    echo "Usage:"
+#    echo "    ${0} -c <host> -p <port> -u <username> -w <password>"
+#    exit 1
+#}
 
 # Constants
 SLEEP_TIME=5
@@ -21,31 +21,31 @@ GERRIT_ADD_KEY_PATH="accounts/self/sshkeys"
 GERRIT_REST_AUTH="jenkins:jenkins"
 
 
-while getopts "c:p:u:w:" opt; do
-  case $opt in
-    c)
-      host=${OPTARG}
-      ;;
-    p)
-      port=${OPTARG}
-      ;;
-    u)
-      username=${OPTARG}
-      ;;
-    w)
-      password=${OPTARG}
-      ;;
-    *)
-      echo "Invalid parameter(s) or option(s)."
-      usage
-      ;;
-  esac
-done
+#while getopts "c:p:u:w:" opt; do
+#  case $opt in
+#    c)
+#      host=${OPTARG}
+#      ;;
+#    p)
+#      port=${OPTARG}
+#      ;;
+#    u)
+#      username=${OPTARG}
+#      ;;
+#    w)
+#      password=${OPTARG}
+#      ;;
+#    *)
+#      echo "Invalid parameter(s) or option(s)."
+#      usage
+#      ;;
+#  esac
+#done
 
-if [ -z "${host}" ] || [ -z "${port}" ] || [ -z "${username}" ] || [ -z "${password}" ]; then
-    echo "Parameters missing"
-    usage
-fi
+#if [ -z "${host}" ] || [ -z "${port}" ] || [ -z "${username}" ] || [ -z "${password}" ]; then
+#    echo "Parameters missing"
+#    usage
+#fi
 
 echo "Generating Jenkins Key Pair"
 if [ ! -d "${JENKINS_SSH_DIR}" ]; then mkdir -p "${JENKINS_SSH_DIR}"; fi
