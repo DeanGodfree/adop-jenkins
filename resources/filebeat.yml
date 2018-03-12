@@ -121,10 +121,10 @@ filebeat.modules:
     #prospector:
 
 #-------------------------------- Kafka Module -------------------------------
-- module: kafka
+#- module: kafka
   # All logs
-  log:
-    enabled: true
+#  log:
+#    enabled: true
 
     # Set custom paths for Kafka. If left empty,
     # Filebeat will look under /opt.
@@ -205,9 +205,9 @@ filebeat.modules:
     #prospector:
 
 #------------------------------- Osquery Module ------------------------------
-- module: osquery
-  result:
-    enabled: true
+#- module: osquery
+#  result:
+#    enabled: true
 
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
@@ -286,7 +286,7 @@ filebeat.prospectors:
 - type: log
 
   # Change to true to enable this prospector configuration.
-  enabled: false
+  enabled: true
 
   # Paths that should be crawled and fetched. Glob based paths.
   # To fetch all ".log" files from a specific level of subdirectories
@@ -297,7 +297,7 @@ filebeat.prospectors:
     - "/var/jenkins_home/jobs/*/builds/*/log"
     #- c:\programdata\elasticsearch\logs\*
   fields:
-    jenkins: true
+    log: jenkins
   fields_under_root: true
     
 
@@ -556,6 +556,36 @@ filebeat.prospectors:
     #reload.enabled: true
     #reload.period: 10s
 
+
+#============================= Filebeat modules ===============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+#==================== Elasticsearch template setting ==========================
+setup.template.name: "test1"
+setup.template.pattern: "test1-"
+setup.template.settings:
+  index.number_of_shards: 3
+  #index.codec: best_compression
+  #_source.enabled: false
+
+
+
+
+
+
+
+
+
+
 #================================ General ======================================
 
 # The name of the shipper that publishes the network data. It can be used to group
@@ -688,7 +718,15 @@ filebeat.prospectors:
 
 # Configure what output to use when sending the data collected by the beat.
 
+
+
 #-------------------------- Elasticsearch output -------------------------------
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["elasticsearch:9200"]
+  index: "%{[fields.log]}" 
+
+
 #output.elasticsearch:
   # Boolean flag to enable or disable the output module.
   #enabled: true
@@ -783,12 +821,12 @@ filebeat.prospectors:
 
 
 #----------------------------- Logstash output ---------------------------------
-output.logstash:
+#output.logstash:
   # Boolean flag to enable or disable the output module.
-  enabled: true
+#  enabled: true
 
   # The Logstash hosts
-  hosts: ["logstash:5000"]
+#  hosts: ["logstash:5000"]
 
   # Number of workers per Logstash host.
   #worker: 1
@@ -817,7 +855,7 @@ output.logstash:
 
   # Optional index name. The default index name is set to filebeat
   # in all lowercase.
-  index: 'filebeat'
+#  index: 'filebeat'
 
   # SOCKS5 proxy server URL
   #proxy_url: socks5://user:password@socks5-server:2233
