@@ -296,6 +296,10 @@ filebeat.prospectors:
   paths:
     - "/var/jenkins_home/jobs/*/builds/*/log"
     #- c:\programdata\elasticsearch\logs\*
+  fields:
+    jenkins: true
+  fields_under_root: true
+    
 
   # Configure the file encoding for reading files with international characters
   # following the W3C recommendation for HTML5 (http://www.w3.org/TR/encoding).
