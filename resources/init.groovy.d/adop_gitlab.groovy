@@ -14,11 +14,12 @@ if (!env['ADOP_GITLAB_ENABLED'].toBoolean()) {
     println "--> ADOP Gitlab Disabled"
     return
 }
-def username = env['GITLAB_ADMIN_USER'] ?: 'root'
-def password = env['GITLAB_ADMIN_PASSWORD']
+
+def username = env['GITLAB_JENKINS_USERNAME']
+def password = env['GITLAB_JENKINS_PASSWORD']
 
 if (!password) {
-    println "GITLAB_ADMIN_PASSWORD is empty, Gitlab credentials setup will not proceed."
+    println "GITLAB_JENKINS_PASSWORD is empty, Gitlab credentials setup will not proceed."
     return
 }
 
