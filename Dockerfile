@@ -1,9 +1,8 @@
 FROM jenkins/jenkins:2.89.4
 
-MAINTAINER Nick Griffin, <nicholas.griffin>
+MAINTAINER Dean Godfree, <dean.j.godfree>
 
 ENV JENKINS_SHARED_LIBRARY=""
-ENV AEM_SHARED_LIBRARY=""
 
 # Copy in configuration files
 COPY resources/plugins.txt /usr/share/jenkins/ref/
