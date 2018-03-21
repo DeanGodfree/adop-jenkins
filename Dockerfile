@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.89.4
+FROM jenkins/jenkins:2.107.1
 
 MAINTAINER Dean Godfree, <dean.j.godfree>
 
